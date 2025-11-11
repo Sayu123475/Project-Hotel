@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hotel Dulcee — Purchasing System</title>
+
+  <!-- Theme font (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <img src="logo.png" alt="Hotel Dulcee Logo" id="logo" class="logo">
+      <div class="title">
+        <h1>HOTEL DULCEE</h1>
+        <div class="subtitle">Requisition_Inventory_Purchasing System</div>
+      </div>
+    </header>
+
+    <!-- HOMEPAGE -->
+    <main class="container">
+      <section id="home" class="card active">
+        <h2 class="center">Procurement Suite</h2>
+        <p class="center small">Hospitality refined- within and beyond our walls.</p>
+
+        <div class="modules">
+          <button class="module" onclick="showModule('po')">
+            <div class="module-title">Purchase Order</div>
+            <div class="module-sub">Create and manage P.O.s</div>
+          </button>
+
+          <button class="module" onclick="showModule('rp')">
+            <div class="module-title">Request for Payment</div>
+            <div class="module-sub">Request payments</div>
+          </button>
+
+          <button class="module" onclick="showModule('pr')">
+            <div class="module-title">Purchase Requisition</div>
+            <div class="module-sub">Internal requisitions</div>
+          </button>
+        </div>
+      </section>
+
+      <!-- LIST PANELS -->
+      <section id="panel-po" class="card panel" style="display:none">
+        <div class="panel-top">
+          <button class="link" onclick="goHome()">← Back</button>
+          <div class="right">
+            <button class="btn" onclick="openCreate('po')">+ New Purchase Order</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <select id="po-filter" onchange="renderList('po')">
+            <option value="all">All</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          <input type="date" id="po-from" onchange="renderList('po')">
+          <input type="date" id="po-to" onchange="renderList('po')">
+          <input placeholder="Search supplier or PO No" id="po-search" oninput="renderList('po')">
+        </div>
+
+        <div id="po-list-area"></div>
+      </section>
+
+      <section id="panel-rp" class="card panel" style="display:none">
+        <div class="panel-top">
+          <button class="link" onclick="goHome()">← Back</button>
+          <div class="right">
+            <button class="btn" onclick="openCreate('rp')">+ New Request Payment</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <select id="rp-filter" onchange="renderList('rp')">
+            <option value="all">All</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          <input type="date" id="rp-from" onchange="renderList('rp')">
+          <input type="date" id="rp-to" onchange="renderList('rp')">
+          <input placeholder="Search payee or No" id="rp-search" oninput="renderList('rp')">
+        </div>
+
+        <div id="rp-list-area"></div>
+      </section>
+
+      <section id="panel-pr" class="card panel" style="display:none">
+        <div class="panel-top">
+          <button class="link" onclick="goHome()">← Back</button>
+          <div class="right">
+            <button class="btn" onclick="openCreate('pr')">+ New Purchase Requisition</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <select id="pr-filter" onchange="renderList('pr')">
+            <option value="all">All</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          <input type="date" id="pr-from" onchange="renderList('pr')">
+          <input type="date" id="pr-to" onchange="renderList('pr')">
+          <input placeholder="Search requester or No" id="pr-search" oninput="renderList('pr')">
+        </div>
+
+        <div id="pr-list-area"></div>
+      </section>
+
+      <!-- FORMS -->
+      <!-- Purchase Order Form -->
+      <section id="form-po" class="card form-card" style="display:none">
+        <div class="panel-top">
+          <button class="link" onclick="closeForm()">← Back</button>
+          <div class="right">
+            <button class="btn" onclick="savePO()">Save</button>
+            <button class="btn muted" onclick="generatePOPdfFromForm()">Generate PDF</button>
+          </div>
+        </div>
+
+        <div class="form-head">
+          <img src="logo.png" alt="logo" class="form-logo">
+          <div>
+            <div class="form-title">PURCHASE ORDER</div>
+            <div class="form-sub">HOTEL DULCEE</div>
+          </div>
+        </div>
+
+        <div class="form-body">
+          <div class="row">
+            <div class="field">
+              <label>PO No.</label>
+              <input id="po-no" readonly>
+            </div>
+            <div class="field">
+              <label>Date</label>
+              <input type="date" id="po-date">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label>Department</label>
+              <input id="po-dept" placeholder="e.g., Housekeeping">
+            </div>
+            <div class="field">
+              <label>Supplier's Name</label>
+              <input id="po-supplier">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label>TIN #</label>
+              <input id="po-tin">
+            </div>
+            <div class="field">
+              <label>Address</label>
+              <input id="po-address">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label>Contact Person</label>
+              <input id="po-contact-person">
+            </div>
+            <div class="field">
+              <label>Contact Number</label>
+              <input id="po-contact-number">
+            </div>
+          </div>
+
+          <h4 class="section-title">Items</h4>
+
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th style="width:8%">Qty</th>
+                <th style="width:10%">Unit</th>
+                <th>Item Description</th>
+                <th style="width:15%">Unit Cost</th>
+                <th style="width:15%">Amount</th>
+                <th style="width:8%"></th>
+              </tr>
+            </thead>
+            <tbody id="po-items"></tbody>
+          </table>
+
+          <div class="row-actions">
+            <button class="btn secondary" onclick="poAddItem()">+ Add Item</button>
+          </div>
+
+          <div class="total-row">
+            <div class="note small">*** NOTHING FOLLOWS ***</div>
+            <div class="total">TOTAL: <span id="po-total">₱ 0.00</span></div>
+          </div>
+
+          <div class="signatures">
+            <div class="sig">
+              <label class="sig-label">Prepared by</label>
+              <input id="po-prepared-by" placeholder="Name & Signature">
+            </div>
+            <div class="sig">
+              <label class="sig-label">Checked by</label>
+              <input id="po-checked-by" placeholder="Name & Signature">
+            </div>
+            <div class="sig">
+              <label class="sig-label">Approved by</label>
+              <input id="po-approved-by" placeholder="Name & Signature">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Request for Payment Form -->
+      <section id="form-rp" class="card form-card" style="display:none">
+        <div class="panel-top">
+          <button class="link" onclick="closeForm()">← Back</button>
+          <div class="right">
+            <button class="btn" onclick="saveRP()">Save</button>
+            <button class="btn muted" onclick="generateRPPdfFromForm()">Generate PDF</button>
+          </div>
+        </div>
+
+        <div class="form-head">
+          <img src="logo.png" alt="logo" class="form-logo">
+          <div>
+            <div class="form-title">REQUEST FOR PAYMENT</div>
+            <div class="form-sub">HOTEL DULCEE</div>
+          </div>
+        </div>
+
+        <div class="form-body">
+          <div class="row">
+            <div class="field"><label>RP No.</label><input id="rp-no" readonly></div>
+            <div class="field"><label>Date</label><input type="date" id="rp-date"></div>
+          </div>
+
+          <div class="row">
+            <div class="field"><label>Payee</label><input id="rp-payee"></div>
+            <div class="field"><label>TIN #</label><input id="rp-tin"></div>
+          </div>
+
+          <div class="row">
+            <div class="field"><label>Department</label><input id="rp-dept"></div>
+            <div class="field"><label>Mode of Payment</label><input id="rp-mode"></div>
+          </div>
+
+          <div class="row">
+            <div class="field"><label>Payment For</label><input id="rp-for"></div>
+            <div class="field"><label>Amount</label><input type="number" id="rp-amount" step="0.01"></div>
+          </div>
+
+          <div class="row">
+            <div class="field" style="width:100%">
+              <label>Remarks</label>
+              <textarea id="rp-remarks"></textarea>
+            </div>
+          </div>
+
+          <div class="signatures">
+            <div class="sig">
+              <label class="sig-label">Requested by</label>
+              <input id="rp-requested-by" placeholder="Name & Signature">
+            </div>
+            <div class="sig">
+              <label class="sig-label">Checked by</label>
+              <input id="rp-checked-by" placeholder="Name & Signature">
+            </div>
+            <div class="sig">
+              <label class="sig-label">Recommending Approval</label>
+              <input id="rp-recommend" placeholder="Name & Signature">
+            </div>
+            <div class="sig">
+              <label class="sig-label">Approved by</label>
+              <input id="rp-approved-by" placeholder="Name & Signature">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Purchase Requisition Form -->
+      <section id="form-pr" class="card form-card" style="display:none">
+        <div class="panel-top">
+          <button class="link" onclick="closeForm()">← Back</button>
+          <div class="right">
+            <button class="btn" onclick="savePR()">Save</button>
+            <button class="btn muted" onclick="generatePRPdfFromForm()">Generate PDF</button>
+          </div>
+        </div>
+
+        <div class="form-head">
+          <img src="logo.png" alt="logo" class="form-logo">
+          <div>
+            <div class="form-title">PURCHASE REQUISITION</div>
+            <div class="form-sub">HOTEL DULCEE</div>
+          </div>
+        </div>
+
+        <div class="form-body">
+          <div class="row">
+            <div class="field"><label>MRF No.</label><input id="pr-no" readonly></div>
+            <div class="field"><label>Date</label><input type="date" id="pr-date"></div>
+          </div>
+
+          <div class="row">
+            <div class="field"><label>Requisitioner</label><input id="pr-requester"></div>
+            <div class="field"><label>Department</label><input id="pr-dept"></div>
+          </div>
+
+          <div class="row">
+            <div class="field"><label>Date Needed</label><input type="date" id="pr-needed"></div>
+            <div class="field">
+              <label>Remarks</label>
+              <textarea id="pr-remarks"></textarea>
+            </div>
+          </div>
+
+          <h4 class="section-title">Items</h4>
+
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th style="width:10%">STK No.</th>
+                <th style="width:8%">Qty</th>
+                <th style="width:10%">Unit</th>
+                <th>Item Description</th>
+                <th style="width:20%">Remarks</th>
+                <th style="width:8%"></th>
+              </tr>
+            </thead>
+            <tbody id="pr-items"></tbody>
+          </table>
+
+          <div class="row-actions">
+            <button class="btn secondary" onclick="prAddItem()">+ Add Item</button>
+          </div>
+
+          <div class="signatures">
+            <div class="sig">
+              <label class="sig-label">Requested by</label>
+              <input id="pr-requested-by" placeholder="Name & Signature">
+            </div>
+            <div class="sig">
+              <label class="sig-label">Checked by</label>
+              <input id="pr-checked-by" placeholder="Name & Signature">
+            </div>
+            <div class="sig">
+              <label class="sig-label">Recommending Approval</label>
+              <input id="pr-recommend" placeholder="Name & Signature">
+            </div>
+            <div class="sig">
+              <label class="sig-label">Approved by</label>
+              <input id="pr-approved-by" placeholder="Name & Signature">
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">© Hotel Dulcee | Requisition_Inventory_Purchasing System</footer>
+  </div>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>
