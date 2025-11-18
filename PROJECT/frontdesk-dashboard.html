@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Front Desk Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="frontdeskLoad()">
+
+  <div class="dashboard">
+    <div class="sidebar">
+      <h3>Front Desk</h3>
+      <a href="#" onclick="showSection('fdHome')">Dashboard</a>
+      <a href="#" onclick="showSection('reservations')">Reservations</a>
+      <a href="#" onclick="showSection('guest')">Guest Records</a>
+      <a href="#" onclick="showSection('fdProfile')">My Profile</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="content">
+      <div id="fdHome" class="card section">
+        <h2>Welcome to Front Desk</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <div class="card" style="flex:1;min-width:220px">
+            <h3>Today</h3>
+            <p>Quick actions for front desk.</p>
+            <button onclick="alert('Open Reservations (placeholder)')">Open Reservations</button>
+          </div>
+
+          <div class="card" style="flex:1;min-width:220px">
+            <h3>Check-ins</h3>
+            <p>Placeholder: check-in list / actions.</p>
+            <button onclick="alert('Show check-ins (placeholder)')">View</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="reservations" class="card section" style="display:none">
+        <h2>Reservations</h2>
+        <p>Reservation management placeholder (UI ready).</p>
+      </div>
+
+      <div id="guest" class="card section" style="display:none">
+        <h2>Guest Records</h2>
+        <p>Guest records placeholder (UI ready).</p>
+      </div>
+
+      <div id="fdProfile" class="card section" style="display:none">
+        <h2>My Profile</h2>
+        <p><b>Name:</b> <span id="fdName"></span></p>
+        <p><b>Department:</b> <span id="fdDept"></span></p>
+        <p><b>Email:</b> <span id="fdEmail"></span></p>
+
+        <h3>Edit Profile</h3>
+        <input id="fdEditName" placeholder="Full name" />
+        <button onclick="fdUpdateProfile()">Save</button>
+
+        <h3>Change Password</h3>
+        <input id="fdCurrentPass" type="password" placeholder="Current password" />
+        <input id="fdNewPass" type="password" placeholder="New password" />
+        <input id="fdConfirmPass" type="password" placeholder="Confirm new password" />
+        <button onclick="fdChangePassword()">Update Password</button>
+      </div>
+    </div>
+  </div>
+
+<script src="main.js"></script>
+</body>
+</html>

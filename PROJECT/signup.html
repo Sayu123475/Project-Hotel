@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Sign Up — Demo System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Create Account</h2>
+
+    <label>Department</label>
+    <select id="suDepartment">
+      <option value="">Select Department</option>
+      <option>Admin</option>
+      <option>Front Desk</option>
+      <option>Housekeeping</option>
+      <option>Engineering</option>
+      <option>Kitchen</option>
+      <option>Accounting</option>
+      <option>Purchasing</option>
+    </select>
+
+    <input id="suLname" placeholder="Last Name" />
+    <input id="suFname" placeholder="First Name" />
+    <input id="suMname" placeholder="Middle Name (optional)" />
+    <input id="suEmail" type="email" placeholder="Email" />
+    <input id="suPassword" type="password" placeholder="Password" />
+
+    <h4 style="margin-top:10px">Security Questions (used for password reset)</h4>
+    <input id="q1" placeholder="1) What is your favorite color?" />
+    <input id="q2" placeholder="2) Mother's maiden name?" />
+    <input id="q3" placeholder="3) City of birth?" />
+    <input id="q4" placeholder="4) Favorite food?" />
+    <input id="q5" placeholder="5) Name of first pet?" />
+
+    <button onclick="handleSignup()">Submit (requires admin approval)</button>
+
+    <p style="text-align:center;margin-top:10px;">
+      <a href="index.html">Back to Login</a>
+    </p>
+  </div>
+
+<script src="main.js"></script>
+</body>
+</html>

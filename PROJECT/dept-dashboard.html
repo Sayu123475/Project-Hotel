@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Department Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="deptLoad()">
+
+  <div class="dashboard">
+    <div class="sidebar">
+      <h3>Department</h3>
+      <a href="#" onclick="showSection('pr')">Purchase Requisition</a>
+      <a href="#" onclick="showSection('deptProfile')">My Profile</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="content">
+      <div id="pr" class="card section">
+        <h2>Purchase Requisition</h2>
+        <p>Placeholder for PR module — UI and form ready to be wired to backend.</p>
+        <button onclick="alert('Open PR form (placeholder)')">Create PR</button>
+      </div>
+
+      <div id="deptProfile" class="card section" style="display:none">
+        <h2>My Profile</h2>
+        <p><b>Name:</b> <span id="dName"></span></p>
+        <p><b>Department:</b> <span id="dDept"></span></p>
+        <p><b>Email:</b> <span id="dEmail"></span></p>
+
+        <h3>Edit Profile</h3>
+        <input id="dEditName" placeholder="Full name" />
+        <button onclick="dUpdateProfile()">Save</button>
+
+        <h3>Change Password</h3>
+        <input id="dCurrentPass" type="password" placeholder="Current password" />
+        <input id="dNewPass" type="password" placeholder="New password" />
+        <input id="dConfirmPass" type="password" placeholder="Confirm new password" />
+        <button onclick="dChangePassword()">Update Password</button>
+      </div>
+    </div>
+  </div>
+
+<script src="main.js"></script>
+</body>
+</html>

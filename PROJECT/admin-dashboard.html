@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="adminLoad()">
+
+  <div class="dashboard">
+    <div class="sidebar">
+      <h3>Admin Panel</h3>
+      <a href="#" onclick="showSection('approvals')">Pending Approvals</a>
+      <a href="#" onclick="showSection('users')">Users</a>
+      <a href="#" onclick="showSection('profile')">My Profile</a>
+      <a href="#" onclick="showSection('notifications')">Notifications</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="content">
+      <div id="approvals" class="card section">
+        <h2>Pending Approvals</h2>
+        <table class="table" id="pendingTable">
+          <thead><tr><th>Name</th><th>Department</th><th>Email</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div id="users" class="card section" style="display:none">
+        <h2>All Users</h2>
+        <table class="table" id="usersTable">
+          <thead><tr><th>Name</th><th>Dept</th><th>Email</th><th>Approved</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div id="profile" class="card section" style="display:none">
+        <h2>My Profile</h2>
+        <p><b>Name:</b> <span id="admName"></span></p>
+        <p><b>Department:</b> <span id="admDept"></span></p>
+        <p><b>Email:</b> <span id="admEmail"></span></p>
+
+        <h3>Edit Profile</h3>
+        <input id="admEditName" placeholder="Full name" />
+        <button onclick="adminUpdateProfile()">Save</button>
+
+        <h3>Change Password</h3>
+        <input id="admCurrentPass" type="password" placeholder="Current password" />
+        <input id="admNewPass" type="password" placeholder="New password" />
+        <input id="admConfirmPass" type="password" placeholder="Confirm new password" />
+        <button onclick="adminChangePassword()">Update Password</button>
+      </div>
+
+      <div id="notifications" class="card section" style="display:none">
+        <h2>Notifications</h2>
+        <div id="notifList"></div>
+      </div>
+    </div>
+  </div>
+
+<script src="main.js"></script>
+</body>
+</html>
