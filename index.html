@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Hotel Dulcee — Purchasing System</title>
 
-  <!-- Theme font (optional) -->
+  <!-- Theme font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <!-- CSS -->
@@ -22,7 +22,15 @@
         <h1>HOTEL DULCEE</h1>
         <div class="subtitle">Requisition_Inventory_Purchasing System</div>
       </div>
+      <div class="toggle-container">
+    <label class="switch">
+      <input type="checkbox" id="darkToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
     </header>
+
+
 
     <!-- HOMEPAGE -->
     <main class="container">
@@ -53,7 +61,7 @@
         <div class="panel-top">
           <button class="link" onclick="goHome()">← Back</button>
           <div class="right">
-            <button class="btn" onclick="openCreate('po')">+ New Purchase Order</button>
+            <button class="btn" onclick="openCreate('po')">+ New PO</button>
           </div>
         </div>
 
@@ -64,9 +72,13 @@
             <option value="monthly">Monthly</option>
             <option value="yearly">Yearly</option>
           </select>
-          <input type="date" id="po-from" onchange="renderList('po')">
-          <input type="date" id="po-to" onchange="renderList('po')">
-          <input placeholder="Search supplier or PO No" id="po-search" oninput="renderList('po')">
+
+          <input id="po-from" type="date" onchange="renderList('po')" placeholder="From">
+          <input id="po-to" type="date" onchange="renderList('po')" placeholder="To">
+
+          <input id="po-search" type="search" oninput="renderList('po')" placeholder="Search supplier or PO No" class="filter-wide">
+
+          <input id="po-dept-search" type="search" oninput="renderList('po')" placeholder="Search department">
         </div>
 
         <div id="po-list-area"></div>
@@ -90,6 +102,7 @@
           <input type="date" id="rp-from" onchange="renderList('rp')">
           <input type="date" id="rp-to" onchange="renderList('rp')">
           <input placeholder="Search payee or No" id="rp-search" oninput="renderList('rp')">
+          <input placeholder="Search department" id="rp-dept-search" oninput="renderList('rp')">
         </div>
 
         <div id="rp-list-area"></div>
@@ -113,6 +126,7 @@
           <input type="date" id="pr-from" onchange="renderList('pr')">
           <input type="date" id="pr-to" onchange="renderList('pr')">
           <input placeholder="Search requester or No" id="pr-search" oninput="renderList('pr')">
+          <input placeholder="Search department" id="pr-dept-search" oninput="renderList('pr')">
         </div>
 
         <div id="pr-list-area"></div>
